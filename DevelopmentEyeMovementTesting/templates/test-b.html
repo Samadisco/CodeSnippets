@@ -1,0 +1,156 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<style>
+    .header{
+        text-align:center;
+        
+    }
+    body{
+        /* font-family: 'Calibri', sans-serif; */
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    p{
+        font-size:11pt;
+    }
+</style>    
+<body>
+    <h2 class='header'>Test B</h2>
+    <div style='display:flex; justify-content:center; align-items:center'>
+        <div style='display:flex; justify-content:space-between;width:50%'>
+            <div id='columnOneContainer'></div>    
+            <div id='columnTwoContainer'></div> 
+        </div>
+    </div>
+    
+    <script>
+        columnOne = [7,1,2,5,4,8,4,7,3,5,2,5,6,4,7,1,9,2,3,6]
+        // columnOne = [5,2,8,7,4,9,3,1,6,2,5,9,1]
+        columnTwo = [8,9,5,7,3,6,4,7,5,2,3,6,8,6,4,1,2,9,3,7]
+        for (item in columnOne){
+            pTag = document.createElement('p');
+            document.getElementById('columnOneContainer').appendChild(pTag)
+            pTag.textContent = columnOne[item]
+                // console.log(pTag)
+        }
+        for (item in columnTwo){
+            pTag = document.createElement('p');
+            document.getElementById('columnTwoContainer').appendChild(pTag)
+            pTag.textContent = columnTwo[item]
+                // console.log(pTag)
+        }
+        let timePassed = 0;
+        let timer;
+        let isTimerRunning = false;
+
+        function startTimer() {
+            timer = setInterval(function() {
+                // document.getElementById('timerDisplay').textContent = timePassed;
+                // console.log(timePassed)
+                sessionStorage.setItem('test_b_time', timePassed);
+                timePassed++;
+            }, 1000);
+        }
+
+        // Function to stop the timer
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        // Media Recorder variables
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+    
+        // Function to start audio recording
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    isRecording = true;
+                    console.log("Recording started...");
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
+                        // Convert Blob to Base64
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            const base64Audio = reader.result.split(',')[1]; // Extract Base64 string
+
+                            // Save to sessionStorage
+                            sessionStorage.setItem('audioRecording', base64Audio);
+
+                            // Send to Django Backend
+                            sendAudioToBackend(base64Audio);
+                        };
+                        reader.readAsDataURL(audioBlob);
+                    };
+                })
+                .catch(error => console.error("Microphone access denied: ", error));
+        }
+    
+        // Function to stop audio recording
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                console.log("Recording stopped.");
+            }
+        }
+
+        function sendAudioToBackend(base64Audio) {
+            fetch('http://127.0.0.1:8000/api/', {  // Replace with your actual Django API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                body: JSON.stringify({
+                    audio_data: base64Audio,
+                    test:'test_b',
+                    session_id:'{{session_id}}'
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Audio uploaded successfully:", data))
+            .catch(error => console.error("Error uploading audio:", error));
+        }
+
+        // Listen for the spacebar key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === ' ') { // Check if the spacebar is pressed
+                event.preventDefault()
+                if (isTimerRunning) {
+                    stopTimer(); // Stop the timer
+                    stopRecording(); // Stop recording
+                    isTimerRunning = false;
+                } else {
+                    timePassed = 0; // Reset time when starting a new timer
+                    startTimer();   // Start the timer
+                    audioChunks = [];
+                    startRecording(); // Start audio recording
+                    isTimerRunning = true;
+                }
+            }
+        });
+
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                window.location = '/test-c/{{px_id}}/{{session_id}}'
+            }})
+    </script>    
+
+    <!-- <p> Press Start to Begin <p>
+    <button>Start</button> -->
+</body>
+</html>

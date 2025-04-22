@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEM TESTING</title>
+    <style>
+        body {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h3>PRE-TEST</h3>
+    <p>Press <strong>Spacebar</strong> to Start/Stop Recording</p>
+    <p>Press <strong>Enter</strong> to go to the Play Page</p>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    isRecording = true;
+                    console.log("Recording started...");
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
+                        // Convert Blob to Base64
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            const base64Audio = reader.result.split(',')[1]; // Extract Base64 string
+
+                            // Save to sessionStorage
+                            sessionStorage.setItem('audioRecording', base64Audio);
+
+                            // Send to Django Backend
+                            sendAudioToBackend(base64Audio);
+                        };
+                        reader.readAsDataURL(audioBlob);
+                    };
+                })
+                .catch(error => console.error("Microphone access denied: ", error));
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                console.log("Recording stopped.");
+            }
+        }
+
+        function sendAudioToBackend(base64Audio) {
+            fetch('http://127.0.0.1:8000/api/', {  // Replace with your actual Django API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                body: JSON.stringify({
+                    audio_data: base64Audio
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Audio uploaded successfully:", data))
+            .catch(error => console.error("Error uploading audio:", error));
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === ' ') {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    audioChunks = [];
+                    startRecording();
+                }
+            }
+            if (event.key === 'Enter') {
+                window.location = "play.html";
+            }
+        });
+    </script>
+
+</body>
+</html>

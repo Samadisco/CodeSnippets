@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .score-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .score-list li {
+            font-size: 18px;
+            color: #555;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .score-list li:last-child {
+            border-bottom: none;
+        }
+
+        .retry-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 500;
+            color: white;
+            background: #ff6600;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .retry-btn:hover {
+            background: #cc5200;
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Test Completed</h1>
+        <ul class="score-list">
+            <li>Pretest Time - <span id="pretest_time"></span> secs</li>
+            <li>Test A Time - <span id="test_a_time"></span> secs</li>
+            <li>Test B Time - <span id="test_b_time"></span> secs</li>
+            <li>Test C Time - <span id="test_c_time"></span> secs</li>
+        </ul>
+        <a href="/px-instructions/" class="retry-btn">&lt; Retake Test</a>
+        <a href="/" class="retry-btn">Next Patient &gt;</a>
+    </div>
+    <script>
+        document.getElementById('pretest_time').textContent = sessionStorage.getItem('pretest_time') + ' secs';
+        document.getElementById('test_a_time').textContent = sessionStorage.getItem('test_a_time')+ ' secs';
+        document.getElementById('test_b_time').textContent = sessionStorage.getItem('test_b_time') + ' secs';
+        document.getElementById('test_c_time').textContent = sessionStorage.getItem('test_c_time')+ ' secs';
+        
+        fetch('http://127.0.0.1:8000/api/', {  // Replace with your actual Django API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                body: JSON.stringify({
+                    test:'time_submissions',
+                    session_id:'{{session_id}}',
+                    pretest_time: sessionStorage.getItem('pretest_time'),
+                    test_a_time: sessionStorage.getItem('test_a_time'),
+                    test_b_time: sessionStorage.getItem('test_b_time'), 
+                    test_c_time: sessionStorage.getItem('test_c_time'),
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Reading successfully recorded", data))
+            .catch(error => console.error("Error uploading audio:", error));
+        
+        
+        sessionStorage.clear()
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructions - DEM Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fff;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color:#ff6600;
+        }
+        h3{
+            color:#ff6600;  
+        }
+
+        .instructions {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        ol {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .note {
+            background: #ffeeba;
+            padding: 15px;
+            border-left: 5px solid #ffc107;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .start-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #ff6600;
+            color: white;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            background: #cc5200;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Instructions for the DEM Test</h2>
+        
+        <div class="instructions">
+            <p>The Developmental Eye Movement (DEM) Test is designed to assess oculomotor function and visual processing speed. Follow these instructions carefully before beginning the test.</p>
+            
+            <h3>Before You Start:</h3>
+            <ul>
+                <li>Ensure you are in a quiet environment with minimal distractions.</li>
+                <li>Sit in a comfortable position with your screen at eye level.</li>
+                <li>Make sure you are well-rested and focused.</li>
+            </ul>
+
+            <h3>Test Procedure:</h3>
+            <ol>
+                <li><strong>Pretest:</strong> A practice session will help familiarize you with the test format.</li>
+                <li><strong>Test A:</strong> Read a series of numbers displayed vertically as fast and accurately as possible.</li>
+                <li><strong>Test B:</strong> Read another set of vertically arranged numbers.</li>
+                <li><strong>Test C:</strong> Read numbers presented in a horizontal sequence.</li>
+                <li>Your time and accuracy will be recorded automatically.</li>
+            </ol>
+
+            <h3>Important Notes:</h3>
+            <div class="note">
+                <p><strong>⚠️ Note:</strong> Avoid using a finger or cursor to guide your eyes. The goal is to assess your natural eye movements.</p>
+            </div>
+
+            <h3>What Happens After the Test?</h3>
+            <ul>
+                <li>Your results will be displayed on the screen.</li>
+                <li>You can choose to retake the test if needed.</li>
+                <li>If advised, consult a specialist for further evaluation.</li>
+            </ul>
+
+            <a  id="startTest" class="start-btn">Start Test</a>
+        </div>
+    </div>
+    <script>
+        function generateRandomID() {
+let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+let id = "";
+for (let i = 0; i < 7; i++) {
+id += letters.charAt(Math.floor(Math.random() * letters.length));
+}
+return id;
+}
+// document.getElementById('px_id').value = generateRandomID()
+document.getElementById("startTest").href = `/pre-test/{{px_id}}/${generateRandomID()}`;
+
+    </script>
+</body>
+</html>

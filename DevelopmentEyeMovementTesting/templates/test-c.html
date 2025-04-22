@@ -1,0 +1,332 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<style>
+    body{
+        /* font-family: 'Calibri', sans-serif; */
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    p{
+        /* font-size:11pt; */
+        font-size:15px;
+    }
+    .header{
+        text-align:center;
+    }
+    /* #columnTwoContainer p:nth-child(1){
+       
+    } */
+    #columnTwoContainer p:nth-child(2){
+        /* color:red; */
+        margin-top:85px;
+    }
+    #columnTwoContainer p:nth-child(3){
+        margin-top:120px;
+    }
+    #columnTwoContainer p:nth-child(4){
+        margin-top:50px;
+    }
+    #columnTwoContainer p:nth-child(5){
+        margin-top:50px;
+    }
+    #columnTwoContainer p:nth-child(6){
+        margin-top:85px;
+    }
+    #columnThreeContainer p:nth-child(1){
+        margin-top:50px;
+    }
+    #columnThreeContainer p:nth-child(2){
+        margin-top:50px;
+    }
+    #columnThreeContainer p:nth-child(3){
+        margin-top:50px;
+    }
+    #columnThreeContainer p:nth-child(4){
+        margin-top:50px;
+    }
+    #columnThreeContainer p:nth-child(6){
+        margin-top:120px;
+    }
+    #columnThreeContainer p:nth-child(7){
+        margin-top:87px;
+    }
+    #columnfourContainer p:nth-child(2){
+        margin-top:50px;
+    }
+    #columnfourContainer p:nth-child(3){
+        margin-top:50px;
+    }
+    #columnfourContainer p:nth-child(5){
+        margin-top:120px;
+    }
+    #columnfourContainer p:nth-child(7){
+        margin-top:90px;
+    }
+    #columnfourContainer p:nth-child(8){
+        margin-top:47px;
+    }
+    #columnfiveContainer p:nth-child(1){
+        margin-top:50px;
+    }
+    #columnfiveContainer p:nth-child(2){
+        margin-top:154px;
+    }
+    #columnfiveContainer p:nth-child(4){
+        margin-top:52px;
+    }
+    #columnfiveContainer p:nth-child(5){
+        margin-top:83px;
+    }
+    #columnfiveContainer p:nth-child(6){
+        margin-top:55px;
+    }
+    #columnsixContainer p:nth-child(1){
+        margin-top:120px;
+    }
+    #columnsixContainer p:nth-child(3){
+        margin-top:120px;
+    }
+    #columnsixContainer p:nth-child(4){
+        margin-top:48px;
+    }
+    #columnsixContainer p:nth-child(6){
+        margin-top:55px;
+    }
+    #columnsevenContainer p:nth-child(2){
+        margin-top:50px;
+    }
+    #columnsevenContainer p:nth-child(3){
+        margin-top:85px;
+    }
+    #columnsevenContainer p:nth-child(5){
+        margin-top:190px;
+    }
+    #columnsevenContainer p:nth-child(6){
+        margin-top:50px;
+    }
+    #columneightContainer p:nth-child(1){
+        margin-top:50px;
+    }
+    #columneightContainer p:nth-child(2){
+        margin-top:155px;
+    }
+    #columneightContainer p:nth-child(3){
+        margin-top:50px;
+    }
+    #columneightContainer p:nth-child(4){
+        margin-top:50px;
+    }
+    #columneightContainer p:nth-child(5){
+        margin-top:90px;
+    }
+    #columnnineContainer p:nth-child(1){
+        margin-top:85px;
+    }
+    #columnnineContainer p:nth-child(2){
+        margin-top:50px;
+    }
+    #columnnineContainer p:nth-child(3){
+        margin-top:225px;
+    }
+</style>    
+<body>
+    <h2 class='header'>Test C</h2>
+    <div style='display:flex; justify-content:center; align-items:center'>
+        <div style='display:flex; justify-content:space-between;width:50%'>
+            <div id='columnOneContainer'></div>    
+            <div id='columnTwoContainer'></div> 
+            <div id='columnThreeContainer'></div> 
+            <div id='columnFourContainer'></div> 
+            <div id='columnFiveContainer'></div> 
+            <div id='columnSixContainer'></div> 
+            <div id='columnSevenContainer'></div> 
+            <div id='columnEightContainer'></div> 
+            <div id='columnNineContainer'></div> 
+            <div id='columnTenContainer'></div> 
+        </div>
+    </div>
+    
+    <script>
+        columnOne = [8,6,3,2,7,8,2,1,4,2,8,7,2,3,6,8]
+        columnTwo = [7,9,3,4,5,8]
+        columnThree = [5,3,3,2,2,9,7]
+        columnFour = [5,4,5,7,6,3,4,5]
+        columnFive = [7,4,9,5,3,7]
+        columnSix = [9,2,3,7,2,7]
+        columnSeven = [9,7,4,6,9,4,9]
+        columnEight = [4,5,6,4,6]
+        columnNine = [6,1,1]
+        columnTen = [3,2,1,8,4,5,7,6,9,7,5,4,7,1,2,3]
+        for (item in columnOne){
+            pTag = document.createElement('p');
+            document.getElementById('columnOneContainer').appendChild(pTag)
+            pTag.textContent = columnOne[item]
+                // console.log(pTag)
+        }
+        for (item in columnTwo){
+            pTag = document.createElement('p');
+            document.getElementById('columnTwoContainer').appendChild(pTag)
+            pTag.textContent = columnTwo[item]
+                // console.log(pTag)
+        }
+        for (item in columnThree){
+            pTag = document.createElement('p');
+            document.getElementById('columnThreeContainer').appendChild(pTag)
+            pTag.textContent = columnThree[item]
+                // console.log(pTag)
+        }
+        for (item in columnFour){
+            pTag = document.createElement('p');
+            document.getElementById('columnFourContainer').appendChild(pTag)
+            pTag.textContent = columnFour[item]
+                // console.log(pTag)
+        }
+        for (item in columnFive){
+            pTag = document.createElement('p');
+            document.getElementById('columnFiveContainer').appendChild(pTag)
+            pTag.textContent = columnFive[item]
+                // console.log(pTag)
+        }
+        for (item in columnSix){
+            pTag = document.createElement('p');
+            document.getElementById('columnSixContainer').appendChild(pTag)
+            pTag.textContent = columnSix[item]
+                // console.log(pTag)
+        }
+        for (item in columnSeven){
+            pTag = document.createElement('p');
+            document.getElementById('columnSevenContainer').appendChild(pTag)
+            pTag.textContent = columnSeven[item]
+                // console.log(pTag)
+        }
+        for (item in columnEight){
+            pTag = document.createElement('p');
+            document.getElementById('columnEightContainer').appendChild(pTag)
+            pTag.textContent = columnEight[item]
+                // console.log(pTag)
+        }
+        for (item in columnNine){
+            pTag = document.createElement('p');
+            document.getElementById('columnNineContainer').appendChild(pTag)
+            pTag.textContent = columnNine[item]
+                // console.log(pTag)
+        }
+        for (item in columnTen){
+            pTag = document.createElement('p');
+            document.getElementById('columnTenContainer').appendChild(pTag)
+            pTag.textContent = columnTen[item]
+                // console.log(pTag)
+        }
+        let timePassed = 0;
+        let timer;
+        let isTimerRunning = false;
+
+        function startTimer() {
+            timer = setInterval(function() {
+                // console.log(timePassed)
+                sessionStorage.setItem('test_c_time', timePassed);
+                timePassed++;
+            }, 1000);
+        }
+
+        // Function to stop the timer
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+         // Media Recorder variables
+         let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+    
+        // Function to start audio recording
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    isRecording = true;
+                    console.log("Recording started...");
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
+                        // Convert Blob to Base64
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            const base64Audio = reader.result.split(',')[1]; // Extract Base64 string
+
+                            // Save to sessionStorage
+                            sessionStorage.setItem('audioRecording', base64Audio);
+
+                            // Send to Django Backend
+                            sendAudioToBackend(base64Audio);
+                        };
+                        reader.readAsDataURL(audioBlob);
+                    };
+                })
+                .catch(error => console.error("Microphone access denied: ", error));
+        }
+    
+        // Function to stop audio recording
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                console.log("Recording stopped.");
+            }
+        }
+
+        function sendAudioToBackend(base64Audio) {
+            fetch('http://127.0.0.1:8000/api/', {  // Replace with your actual Django API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                body: JSON.stringify({
+                    audio_data: base64Audio,
+                    test:'test_c',
+                    session_id:'{{session_id}}'
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Audio uploaded successfully:", data))
+            .catch(error => console.error("Error uploading audio:", error));
+        }
+
+        // Listen for the spacebar key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === ' ') { // Check if the spacebar is pressed
+                if (isTimerRunning) {
+                    stopTimer(); // Stop the timer
+                    stopRecording(); // Stop recording
+                    isTimerRunning = false;
+                } else {
+                    timePassed = 0; // Reset time when starting a new timer
+                    startTimer();   // Start the timer
+                    audioChunks = [];
+                    startRecording(); // Start audio recording
+                    isTimerRunning = true;
+                }
+            }
+        });
+
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                window.location = '/finish/{{px_id}}/{{session_id}}'
+            }})
+    </script>    
+
+    <!-- <p> Press Start to Begin <p>
+    <button>Start</button> -->
+</body>
+</html>

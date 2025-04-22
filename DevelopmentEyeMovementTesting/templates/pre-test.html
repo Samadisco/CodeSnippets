@@ -1,0 +1,197 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEM TESTING</title>
+    <style>
+        body{
+
+        /* font-family: 'Calibri', sans-serif; */
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    </style>
+</head>
+<body>
+
+    <!-- <h2>Welcome to DEM Testing Platform </h2>
+    <p> Press Start to Begin <p> -->
+        <h3 style="text-align: center;">PRE-TEST</h3>
+        <div style=" height: 80vh; display: flex; justify-content: center;">
+            <div style='display:flex; justify-content:center;align-items:center; '>
+                <div style='width:11.7cm;'>
+                    <div style='display:flex; flex-direction:row; justify-content:space-between' id='pretestContainer'></div> 
+                </div>    
+            </div>    
+        </div>
+    <!-- <button><a href="test-a.html">Start</a></button> -->
+
+    <!-- <script>
+        preTest = [5,2,8,7,4,9,3,1,6,2]
+        for (item in preTest){
+            pTag = document.createElement('p');
+            document.getElementById('pretestContainer').appendChild(pTag)
+            pTag.textContent = preTest[item]
+                // console.log(pTag)
+        }
+     
+        let timePassed = 0;
+        let timer;
+        let isTimerRunning = false;
+
+        function startTimer() {
+            timer = setInterval(function() {
+                // document.getElementById('timerDisplay').textContent = timePassed;
+                console.log(timePassed)
+                sessionStorage.setItem('pretest_time', timePassed);
+                timePassed++;
+            }, 1000);
+        }
+
+        // Function to stop the timer
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        let mediaRecorder;
+        let audioChunks = [];
+
+        // Listen for the spacebar key press
+        document.addEventListener('keydown', function(event) {
+            if (event.key === ' ') { // Check if the spacebar is pressed
+                if (isTimerRunning) {
+                    stopTimer(); // Stop the timer
+                    isTimerRunning = false;
+                } else {
+                    timePassed = 0; // Reset time when starting a new timer
+                    startTimer();   // Start the timer
+                    isTimerRunning = true;
+                }
+            }
+        });
+
+       
+
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                window.location = '/test-a'
+            }})
+    </script>   -->
+
+
+    <script>
+        preTest = [5, 2, 8, 7, 4, 9, 3, 1, 6, 2];
+        for (item in preTest) {
+            pTag = document.createElement('p');
+            document.getElementById('pretestContainer').appendChild(pTag);
+            pTag.textContent = preTest[item];
+        }
+    
+        let timePassed = 0;
+        let timer;
+        let isTimerRunning = false;
+    
+        // Timer functions
+        function startTimer() {
+            timer = setInterval(function () {
+                console.log(timePassed);
+                sessionStorage.setItem('pretest_time', timePassed);
+                timePassed++;
+            }, 1000);
+        }
+    
+        function stopTimer() {
+            clearInterval(timer);
+        }
+    
+        // Media Recorder variables
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+    
+        // Function to start audio recording
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.start();
+                    isRecording = true;
+                    console.log("Recording started...");
+
+                    mediaRecorder.ondataavailable = event => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+
+                        // Convert Blob to Base64
+                        const reader = new FileReader();
+                        reader.onloadend = function () {
+                            const base64Audio = reader.result.split(',')[1]; // Extract Base64 string
+
+                            // Save to sessionStorage
+                            sessionStorage.setItem('audioRecording', base64Audio);
+
+                            // Send to Django Backend
+                            sendAudioToBackend(base64Audio);
+                        };
+                        reader.readAsDataURL(audioBlob);
+                    };
+                })
+                .catch(error => console.error("Microphone access denied: ", error));
+        }
+    
+        // Function to stop audio recording
+        function stopRecording() {
+            if (mediaRecorder && isRecording) {
+                mediaRecorder.stop();
+                isRecording = false;
+                console.log("Recording stopped.");
+            }
+        }
+
+        function sendAudioToBackend(base64Audio) {
+            fetch('http://127.0.0.1:8000/api/', {  // Replace with your actual Django API URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{csrf_token}}'
+                },
+                body: JSON.stringify({
+                    audio_data: base64Audio,
+                    test:'pretest',
+                    session_id:'{{session_id}}'
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log("Audio uploaded successfully:", data))
+            .catch(error => console.error("Error uploading audio:", error));
+        }
+    
+        // Spacebar to start/stop timer and recording
+        document.addEventListener('keydown', function (event) {
+            if (event.key === ' ') { // Spacebar pressed
+                if (isTimerRunning) {
+                    stopTimer(); // Stop timer
+                    stopRecording(); // Stop recording
+                    isTimerRunning = false;
+                } else {
+                    timePassed = 0; // Reset time when starting a new timer
+                    startTimer(); // Start timer
+                    audioChunks = [];
+                    startRecording(); // Start audio recording
+                    isTimerRunning = true;
+                }
+            }
+        });
+    
+        // Redirect when Enter is pressed
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                window.location = '/test-a/{{px_id}}/{{session_id}}';
+            }
+        });
+    </script>
+</body>
+</html>

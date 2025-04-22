@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Audio</title>
+</head>
+<body>
+
+    <h1>Recorded Audio</h1>
+
+    <!-- Create an audio player to play the sound -->
+    <audio id="audioPlayer" controls>
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Retrieve the audio data from sessionStorage
+        const audioData = sessionStorage.getItem('audioRecording');
+
+        if (audioData) {
+            // Convert the base64 string back into a URL and set it as the source for the audio player
+            const audioUrl = 'data:audio/wav;base64,' + audioData;
+            const audioPlayer = document.getElementById('audioPlayer');
+            audioPlayer.src = audioUrl;
+        } else {
+            console.log("No audio found in sessionStorage.");
+        }
+    </script>
+
+</body>
+</html>
